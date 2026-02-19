@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>人類圖分析｜你與世界和解的開始</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #faf8f4;
+      --paper: #f0ead8;
+      --ink: #2c2318;
+      --ink-light: #5a4a35;
+      --border: #c8b89a;
+      --shadow: rgba(90,70,40,0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--cream);
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23c8b89a' fill-opacity='0.13'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      min-height: 100vh;
+      font-family: 'Noto Sans TC', sans-serif;
+      color: var(--ink);
+      display: flex; flex-direction: column;
+    }
+    header {
+      text-align: center;
+      padding: 44px 20px 16px;
+      position: relative;
+    }
+    header::after {
+      content: '';
+      display: block;
+      width: 80%; max-width: 400px;
+      height: 2px;
+      margin: 18px auto 0;
+      background: repeating-linear-gradient(90deg, var(--ink) 0px, var(--ink) 6px, transparent 6px, transparent 12px);
+      opacity: 0.3;
+    }
+    .logo-title {
+      font-family: 'Caveat', cursive;
+      font-size: 3.6rem; font-weight: 700;
+      color: var(--ink); letter-spacing: 4px;
+      transform: rotate(-1deg); display: inline-block;
+    }
+    .logo-subtitle {
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem; color: var(--ink-light);
+      letter-spacing: 2px; margin-top: 8px;
+      transform: rotate(0.5deg); display: inline-block;
+    }
+    .hero-figure {
+      display: flex; justify-content: center; margin: 18px auto 0;
+    }
+    main {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 18px 18px 60px;
+      width: 100%;
+    }
+    .paper-card {
+      background: var(--warm-white);
+      border-radius: 2px 16px 2px 16px;
+      border: 2px solid var(--border);
+      padding: 32px 26px 28px;
+      box-shadow: 4px 4px 0px var(--border), 0 8px 24px var(--shadow);
+      position: relative;
+      margin-bottom: 32px;
+    }
+    .paper-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 22px 22px 0 0;
+      border-color: var(--border) transparent transparent transparent;
+      opacity: 0.6;
+    }
+    .card-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem; font-weight: 700;
+      color: var(--ink); text-align: center;
+      margin-bottom: 6px; transform: rotate(-0.5deg);
+    }
+    .card-hint {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem; color: var(--ink-light);
+      text-align: center; margin-bottom: 24px;
+      line-height: 1.5; padding: 8px 12px;
+      border-left: 3px solid var(--border);
+      background: rgba(200,184,154,0.12);
+      border-radius: 0 6px 6px 0;
+    }
+    .form-row { margin-bottom: 16px; }
+    .form-row label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem; font-weight: 600;
+      color: var(--ink); display: block;
+      margin-bottom: 6px; transform: rotate(-0.3deg);
+    }
+    .form-row-half { display: flex; gap: 12px; }
+    .form-row-half .form-row { flex: 1; }
+    select, input[type="text"] {
+      width: 100%;
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem; color: var(--ink);
+      background: rgba(250,248,244,0.82);
+      border: none;
+      border-bottom: 2px dashed var(--border);
+      border-radius: 0;
+      padding: 7px 6px 5px;
+      appearance: none; -webkit-appearance: none;
+      cursor: pointer; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    select:focus, input:focus {
+      border-bottom: 2px solid var(--ink);
+      background: rgba(250,248,244,1);
+    }
+    input[type="text"]::placeholder { color: var(--border); }
+    .submit-btn {
+      margin-top: 28px; width: 100%;
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem; font-weight: 700;
+      letter-spacing: 2px;
+      background: var(--ink); color: var(--cream);
+      border: 3px solid var(--ink);
+      border-radius: 4px 18px 4px 18px;
+      padding: 14px 0; cursor: pointer;
+      box-shadow: 4px 4px 0px rgba(44,35,24,0.25);
+      transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+    }
+    .submit-btn:disabled {
+      background: var(--border); border-color: var(--border);
+      color: var(--warm-white); cursor: not-allowed; box-shadow: none;
+    }
+    .submit-btn:not(:disabled):hover {
+      transform: translate(2px,2px);
+      box-shadow: 2px 2px 0px rgba(44,35,24,0.18);
+      background: #3d2e1a;
+    }
+    #result-wrapper { display: none; overflow: hidden; }
+    #result-paper {
+      background: var(--warm-white);
+      border: 2px solid var(--border);
+      border-radius: 2px 14px 2px 14px;
+      box-shadow: 4px 4px 0 var(--border), 0 8px 28px var(--shadow);
+      padding: 32px 26px;
+      transform-origin: top center;
+      animation: unrollPaper 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
+      position: relative;
+    }
+    #result-paper::before {
+      content: '';
+      display: block; height: 18px;
+      margin: -32px -26px 24px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20'%3E%3Cpath d='M0,10 Q10,2 20,10 Q30,18 40,10 Q50,2 60,10 Q70,18 80,10 Q90,2 100,10 Q110,18 120,10 Q130,2 140,10 Q150,18 160,10 Q170,2 180,10 Q190,18 200,10 L200,0 L0,0 Z' fill='%23c8b89a' opacity='0.6'/%3E%3C/svg%3E") repeat-x bottom;
+    }
+    @keyframes unrollPaper {
+      0% { clip-path: inset(0 0 100% 0); opacity: 0; }
+      20% { opacity: 1; }
+      100% { clip-path: inset(0 0 0% 0); opacity: 1; }
+    }
+    .result-stamp-wrap { text-align: center; margin-bottom: 18px; }
+    .result-stamp {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem; font-weight: 700;
+      text-align: center; color: var(--ink);
+      border: 3px solid var(--ink);
+      display: inline-block; padding: 4px 22px;
+      transform: rotate(-2deg);
+      letter-spacing: 3px; opacity: 0.85;
+    }
+    .result-line {
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem; color: var(--ink);
+      line-height: 2;
+      border-bottom: 1px dashed rgba(200,184,154,0.5);
+      padding-bottom: 4px; margin-bottom: 10px;
+      opacity: 0;
+      animation: fadeLineIn 0.4s ease forwards;
+    }
+    .result-line strong { font-weight: 700; font-size: 1.2rem; }
+    @keyframes fadeLineIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .result-footer {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem; text-align: right;
+      color: var(--border); margin-top: 18px;
+      opacity: 0; animation: fadeLineIn 0.5s ease 3s forwards;
+    }
+    .error-msg {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem; color: #8b3a3a;
+      text-align: center; padding: 16px;
+      border: 2px dashed #c8a0a0;
+      border-radius: 8px; margin-top: 16px;
+    }
+    #loading {
+      display: none; text-align: center; padding: 30px;
+    }
+    .pen-loading {
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem; color: var(--ink-light);
+      animation: blinkText 1.2s ease-in-out infinite;
+    }
+    @keyframes blinkText {
+      0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+    footer {
+      text-align: center; font-family: 'Caveat', cursive;
+      font-size: 1rem; color: var(--border);
+      padding: 20px 12px 30px; margin-top: auto;
+    }
+    @media (max-width: 480px) {
+      .logo-title { font-size: 2.5rem; }
+      .paper-card { padding: 22px 14px 18px; }
+      .form-row-half { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero-figure">
+      <svg width="100" height="120" viewBox="0 0 100 120" fill="none">
+        <ellipse cx="50" cy="20" rx="14" ry="14" stroke="#2c2318" stroke-width="2" stroke-dasharray="3 2" fill="rgba(250,248,244,0.5)"/>
+        <path d="M36 38 Q34 60 30 80 Q38 78 50 78 Q62 78 70 80 Q66 60 64 38 Z" stroke="#2c2318" stroke-width="2" fill="rgba(240,234,216,0.45)" stroke-linejoin="round"/>
+        <path d="M36 42 Q24 50 20 65" stroke="#2c2318" stroke-width="2" stroke-linecap="round"/>
+        <path d="M64 42 Q74 34 80 22" stroke="#2c2318" stroke-width="2" stroke-linecap="round"/>
+        <path d="M42 78 Q38 96 35 115" stroke="#2c2318" stroke-width="2" stroke-linecap="round"/>
+        <path d="M58 78 Q62 96 65 115" stroke="#2c2318" stroke-width="2" stroke-linecap="round"/>
+        <text x="72" y="18" font-family="serif" font-size="13" fill="#c8b89a">✦</text>
+        <text x="16" y="62" font-family="serif" font-size="10" fill="#c8b89a">☽</text>
+      </svg>
+    </div>
+    <div class="logo-title">人類圖</div>
+    <div class="logo-subtitle">你與世界和解的開始</div>
+  </header>
+
+  <main>
+    <div class="paper-card" id="input-card">
+      <div class="card-title">✦ 填寫你的出生資訊</div>
+      <div class="card-hint">⚠ 請盡量填寫正確時間<br>誤差超過 30 分鐘可能影響類型與權威判斷</div>
+      <form id="designForm">
+        <div class="form-row">
+          <label>姓名（選填）</label>
+          <input type="text" id="uname" placeholder="可自訂稱呼…" maxlength="16" />
+        </div>
+        <div class="form-row">
+          <label>出生年</label>
+          <select id="year" required>
+            <option value="">── 請選擇 ──</option>
+            <script>for(let y=1950;y<=2015;y++)document.write(`<option value="${y}">${y} 年</option>`);</script>
+          </select>
+        </div>
+        <div class="form-row-half">
+          <div class="form-row">
+            <label>出生月</label>
+            <select id="month" required>
+              <option value="">月</option>
+              <script>['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'].forEach((n,i)=>document.write(`<option value="${i+1}">${n}</option>`));</script>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>出生日</label>
+            <select id="day" required>
+              <option value="">日</option>
+              <script>for(let d=1;d<=31;d++)document.write(`<option value="${d}">${d} 日</option>`);</script>
+            </select>
+          </div>
+        </div>
+        <div class="form-row-half">
+          <div class="form-row">
+            <label>時（24制）</label>
+            <select id="hour" required>
+              <option value="">時</option>
+              <script>for(let h=0;h<=23;h++)document.write(`<option value="${h}">${String(h).padStart(2,'0')} 時</option>`);</script>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>分</label>
+            <select id="minute" required>
+              <option value="">分</option>
+              <option value="00">00 分</option>
+              <option value="15">15 分</option>
+              <option value="30">30 分</option>
+              <option value="45">45 分</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>出生地（台灣縣市）</label>
+          <select id="city" required>
+            <option value="">── 請選擇縣市 ──</option>
+            <option>台北市</option><option>新北市</option><option>基隆市</option>
+            <option>桃園市</option><option>新竹市</option><option>新竹縣</option>
+            <option>苗栗縣</option><option>台中市</option><option>彰化縣</option>
+            <option>南投縣</option><option>雲林縣</option><option>嘉義市</option>
+            <option>嘉義縣</option><option>台南市</option><option>高雄市</option>
+            <option>屏東縣</option><option>宜蘭縣</option><option>花蓮縣</option>
+            <option>台東縣</option><option>澎湖縣</option><option>金門縣</option>
+            <option>連江縣</option>
+          </select>
+        </div>
+        <button class="submit-btn" id="submitBtn" type="submit" disabled>
+          ✦ 繪製我的能量藍圖
+        </button>
+      </form>
+    </div>
+    <div id="loading"><div class="pen-loading">✎ 正在為你繪製藍圖…</div></div>
+    <div id="result-wrapper">
+      <div id="result-paper">
+        <div class="result-stamp-wrap"><div class="result-stamp">你的能量藍圖</div></div>
+        <div id="result-lines"></div>
+        <div class="result-footer">—— 人類圖分析結果 ——</div>
+      </div>
+    </div>
+  </main>
+  <footer>✦ tzinhung@gmail.com ✦</footer>
+
+  <script>
+    // ★ 改這裡：填入你 Render 後端的實際網址
+    const API_BASE = 'https://human-design-project.onrender.com';
+
+    const requiredFields = ['year','month','day','hour','minute','city'];
+    const submitBtn = document.getElementById('submitBtn');
+    requiredFields.forEach(id => {
+      document.getElementById(id).addEventListener('change', () => {
+        submitBtn.disabled = !requiredFields.every(id => document.getElementById(id).value);
+      });
+    });
+
+    document.getElementById('designForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const payload = {
+        name:   document.getElementById('uname').value || '你',
+        year:   document.getElementById('year').value,
+        month:  document.getElementById('month').value,
+        day:    document.getElementById('day').value,
+        hour:   document.getElementById('hour').value,
+        minute: document.getElementById('minute').value,
+        city:   document.getElementById('city').value,
+      };
+
+      document.getElementById('input-card').style.display = 'none';
+      document.getElementById('loading').style.display = 'block';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/human-design`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('後端回應失敗');
+        const data = await res.json();
+        document.getElementById('loading').style.display = 'none';
+        showResult(data);
+      } catch (err) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('input-card').style.display = 'block';
+        const errDiv = document.createElement('div');
+        errDiv.className = 'error-msg';
+        errDiv.textContent = '✎ 分析失敗，請稍後再試…';
+        document.getElementById('input-card').appendChild(errDiv);
+      }
+    });
+
+    function showResult(data) {
+      const lines = [
+        { label: '姓名',     value: data.name },
+        { label: '出生資訊', value: data.birthInfo },
+        { label: '能量類型', value: data.type },
+        { label: '內在權威', value: data.authority },
+        { label: '人生角色', value: data.profile },
+        { label: '非我主題', value: data.notSelf },
+        { label: '個人建議', value: data.advice },
+      ];
+      const container = document.getElementById('result-lines');
+      container.innerHTML = '';
+      lines.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'result-line';
+        div.style.animationDelay = (0.8 + i * 0.3) + 's';
+        div.innerHTML = `<strong>${item.label}：</strong>${item.value}`;
+        container.appendChild(div);
+      });
+      const wrapper = document.getElementById('result-wrapper');
+      wrapper.style.display = 'block';
+      const paper = document.getElementById('result-paper');
+      paper.style.animation = 'none';
+      paper.offsetHeight;
+      paper.style.animation = '';
+      setTimeout(() => wrapper.scrollIntoView({ behavior:'smooth', block:'start' }), 200);
+    }
+  </script>
+</body>
+</html>
