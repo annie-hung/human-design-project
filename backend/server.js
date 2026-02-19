@@ -9,8 +9,8 @@ app.use(cors({ origin: 'https://annie-hung.github.io' })); // 正式上線請改
 app.use(express.json());
 
 const client = new OpenAI({
-  apiKey:  process.env.PERPLEXITY_API_KEY,
-  baseURL: 'https://api.perplexity.ai',
+  apiKey:  process.env.GEMINI_API_KEY,      
+  baseURL: 'https://generativelanguage.googleapis.com/v1beta/', 
 });
 
 app.post('/api/human-design', async (req, res) => {
