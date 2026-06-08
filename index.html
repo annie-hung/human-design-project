@@ -213,7 +213,54 @@
 
       <div id="status" class="muted"></div>
     </section>
+<!-- 這一段放在故事文本裡，接在「請提供準確的出生時間與地點…」之後 -->
 
+<section id="hd-input">
+  <p><strong>✦ 把這些線索交給宇宙：</strong></p>
+
+  <form id="hd-form">
+    <p>
+      <label>姓名<br>
+        <input name="name" required>
+      </label>
+    </p>
+    <p>
+      <label>出生日期（YYYY-MM-DD）<br>
+        <input name="dob" placeholder="1994-08-17" required>
+      </label>
+    </p>
+    <p>
+      <label>出生時間（HH:MM）<br>
+        <input name="tob" placeholder="09:30" required>
+      </label>
+    </p>
+    <p>
+      <label>出生地（城市＋國家）<br>
+        <input name="place" placeholder="例：台北，台灣" required>
+      </label>
+    </p>
+    <p>
+      <label>此刻你最在意的主題（選填）<br>
+        <input name="life_focus" placeholder="例如：事業、自我方向、關係、身心狀態…">
+      </label>
+    </p>
+
+    <p>
+      <button type="submit" id="submit-btn">
+        送出給宇宙，請它寫一封信給我
+      </button>
+    </p>
+
+    <p id="status" class="muted"></p>
+  </form>
+</section>
+
+<section id="hd-result">
+  <p><strong>✦ 你的能量藍圖故事：</strong></p>
+  <div id="result" class="muted">
+    等你把上面的資訊交出去，這裡就會出現一封只寫給你的故事信。
+  </div>
+</section>
     <!-- 解讀結果區塊 -->
     <section class="card">
       <div class="card-header">STEP 2 · 展開你的專屬頁面</div>
@@ -268,5 +315,50 @@
       }
     });
   </script>
+  <script>
+  // 換成你 Apps Script Web App 部署後的 /exec URL
+  const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwMxb4GtIvXdOPW8JgvJO_T5WcBJOek3xurFdu2bc7knpn7s-yDVuWMzgtLraC6wod0/exec';
+
+  const form = document.getElementById('hd-form');
+  const statusEl = document.getElementById('status');
+  const resultEl = document.getElementById('result');
+  const btn = document.getElementById('submit-btn');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      statusEl.textContent = '宇宙正在翻閱你的能量藍圖，請稍等片刻…';
+      resultEl.textContent = '';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(BACKEND_URL, {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (!data.ok) {
+          statusEl.textContent = '';
+          resultEl.textContent = '目前無法取得解讀：' + (data.error || '未知錯誤，請稍後再試。');
+          return;
+        }
+
+        statusEl.textContent = '已由模型 ' + data.model + ' 完成解讀，你可以慢慢讀完這封信。';
+        resultEl.textContent = data.text;
+        resultEl.classList.remove('muted');
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = '';
+        resultEl.textContent = '連線後端時發生錯誤，請稍後再試一次。';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+</script>
 </body>
 </html>
